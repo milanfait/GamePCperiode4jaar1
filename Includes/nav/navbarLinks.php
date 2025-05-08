@@ -14,6 +14,8 @@ return [
 
     'guest' => [
         'test' => 'test',
+        'home' => 'home',
+        '404' => '404',
 
     ],
 
