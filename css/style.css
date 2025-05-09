@@ -1,0 +1,133 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    user-select: none;
+    transition: all 0.5s ease-in-out;
+}
+
+.navbar.transition {
+    transition: background-color 0.5s ease-in-out;
+}
+
+.footer.transition {
+    transition: background-color 0.5s ease-in-out;
+}
+.footer.transition {
+    transition: background-color 0.5s ease-in-out;
+}
+
+.events {
+    transition: background-color 0.5s ease-in-out;
+}
+
+.events {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Titel */
+.events h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* Tabel opmaak */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* Afbeeldingskolom (optioneel, als je afbeeldingen laat zien) */
+table td img {
+    max-width: 100px;
+    height: auto;
+    border-radius: 6px;
+}
+.editevent-btn {
+    padding: 8px 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.editevent-btn:hover {
+    background-color: #218838;
+}
+.deleteevent-btn {
+    padding: 8px 16px;
+    background-color: #f30808;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.deleteevent-btn:hover {
+    background-color: #cc1414;
+}
+.my-custom-button {
+    padding: 14px 24px;
+    background: linear-gradient(135deg, #16c511, #3ecf24);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    margin-right: 100px;
+    margin-left: 500px;
+}
+
+.my-custom-button:hover {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #79bc23, #72c31e);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.error-message {
+    color: white;
+    background-color: red;
+    padding: 15px;
+    position: relative;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+}
+
+.close-btn {
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    top: 0.8rem;
+    right: 1.2rem;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: #ddd;
+}

@@ -1,16 +1,17 @@
 
     <div class="content">
-    <section class="position-relative text-white text-center d-flex align-items-center justify-content-center" style="min-height: 100vh; background: url('../assets/homeBackground.png') center center / cover no-repeat;">
-    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75"></div>
+    <section style="min-height: 100vh; background: url('../assets/homeBackground.png') center center / cover no-repeat;">
+<!--    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75"></div>-->
+        <div class="container d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 100vh;">
     <div class="container position-relative z-1">
       <div class="row justify-content-center">
         <div class="col-lg-8">
-          <h1 class="display-4 fw-bold">Welcome to My Game PC</h1>
+          <h1 class="fw-bold">Welcome to My Game PC</h1>
           <p class="lead mb-4">for picking your PC parts and getting it all delivered to you pre-build.</p>
-          <a class="loginbutton" href="?page=login" class="btn btn-primary btn-lg me-2">Login</a>
+          <a href="?page=login" class="btn btn-outline-primary btn-lg">Login</a>
             <br>
             <br>
-          <a href="?page=register" class="btn btn-outline-light btn-lg">Become a Member</a>
+          <a href="?page=register" class="btn btn-outline-primary btn-lg">Become a Member</a>
         </div>
       </div>
     </div>
