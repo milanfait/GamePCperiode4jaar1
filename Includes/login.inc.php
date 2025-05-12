@@ -18,6 +18,10 @@ $formData = isset($_SESSION['formData']) ? $_SESSION['formData'] : [];
                                             <label class="form-check-label" for="rolecustomer">customer</label>
                                         </div>
                                         <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="roles[]" value="admin" id="roleAdminLogin">
+                                            <label class="form-check-label" for="roleAdmin">Admin</label>
+                                        </div>
+                                        <div class="form-check">
                                             <input class="form-check-input" type="radio" name="roles[]" value="employee" id="roleemployeeLogin">
                                             <label class="form-check-label" for="roleemployee">employee</label>
                                         </div>
@@ -55,15 +59,22 @@ $formData = isset($_SESSION['formData']) ? $_SESSION['formData'] : [];
                             <label for="floatingPassword" class="form-label">Password</label>
                         </div>
                     `;
+                } else if (selectedRole === 'admin') {
+                    formContainer.innerHTML = `
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Please enter your username" required>
+                            <label for="floatingUsername" class="form-label">Username</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Please enter your password" required>
+                            <label for="floatingPassword" class="form-label">Password</label>
+                        </div>
+                    `;
                 } else if (selectedRole === 'employee') {
                     formContainer.innerHTML = `
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="userkeyCode" name="userkeyCode" placeholder="Enter userkey" required>
                             <label for="userkeyCode" class="form-label">Userkey</label>
-                        </div>
-                        <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Please enter your password" required>
-                            <label for="floatingPassword" class="form-label">Password</label>
                         </div>
                     `;
                 }

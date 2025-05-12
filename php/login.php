@@ -33,6 +33,24 @@ if ($selectedRole == 'customer') {
         'role' => $selectedRole
     ]);
 
+} else if ($selectedRole == 'admin') {
+    if (!isset($_POST['username']) || empty($_POST['username'])) {
+        $_SESSION['error'] = 'Username is required for admins.';
+        header('location: ../index.php?page=login');
+        exit();
+    }
+
+    $sql = 'SELECT username, password, roleName, users.id as userID FROM users
+            JOIN userroles ON userroles.FKuserID = users.id
+            JOIN roles ON roles.id = userroles.FKroleID
+            WHERE username = :username AND roles.roleName = :role';
+
+    $sth = $conn->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+    $sth->execute([
+        'username' => $_POST['username'],
+        'role' => $selectedRole
+    ]);
+
 } else if ($selectedRole == 'employee') {
     if (!isset($_POST['userkeyCode']) || empty($_POST['userkeyCode'])) {
         $_SESSION['error'] = 'Userkey is required for employees.';
@@ -61,12 +79,14 @@ $rsemail = $sth->fetch(PDO::FETCH_ASSOC);
 var_dump($rsemail);
 $_SESSION['role'] = $rsemail['roleName'];
 $_SESSION['user_id'] = $rsemail['userID'];
-if ($rsemail['roleName'] == 'employee') {
+if ($rsemail['roleName'] == 'admin') {
+    header('location: ../index.php?page=overviewAdmin');
+} else if ($rsemail['roleName'] == 'employee') {
     header('location: ../index.php?page=overviewemployee');
 } else if ($rsemail['roleName'] == 'customer') {
     header('location: ../index.php?page=overviewcustomer');
 }
-
+    
 ?>
 <script>
     const maxAttempts = 3;
@@ -91,8 +111,11 @@ if ($rsemail['roleName'] == 'employee') {
     localStorage.removeItem(lockoutKey);
     <?php
     if ($_SESSION['role'] == 'customer') {
-        header('location: ../index.php?page=overviewcustomer');
+        header('location: ../index.php?page=overviewcustomercustomer');
+    } else if ($_SESSION['role'] == 'admin') {
+        header('location: ../index.php?page=overviewAdmin');
     } else if ($_SESSION['role'] == 'employee') {
+        echo "why not work";
         header('location: ../index.php?page=overviewemployeeemployee');
     }
     ?>
