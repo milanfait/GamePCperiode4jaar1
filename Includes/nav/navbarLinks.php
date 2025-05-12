@@ -16,17 +16,14 @@ return [
         'home' => 'home',
         'login' => 'login',
         'register' => 'register',
-        'logout' => 'logout',
 
     ],
     'customer' => [
-        'home' => 'home',
         'overviewcustomer' => 'overview',
         'logout' => 'logout',
 
     ],
     'employee' => [
-        'home' => 'home',
         'overviewemployee' => 'overview',
         'logout' => 'logout',
 

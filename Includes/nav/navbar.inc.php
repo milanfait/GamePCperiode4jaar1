@@ -9,7 +9,7 @@ $currentPage = $_GET['page'] ?? 'home';
     <div class="container-fluid">
         <a class="navbar-brand" href="../../index.php?page=home">
             <img src="../../assets/logo.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
-            My Game PC
+            GamePC INC.
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>

@@ -6,7 +6,7 @@
     <div class="container position-relative z-1">
       <div class="row justify-content-center">
         <div class="col-lg-8">
-          <h1 class="fw-bold">Welcome to My Game PC</h1>
+          <h1 class="fw-bold">Welcome to GamePC INC.</h1>
           <p class="lead mb-4">for picking your PC parts and getting it all delivered to you pre-build.</p>
           <a href="?page=login" class="btn btn-outline-primary btn-lg">Login</a>
             <br>
