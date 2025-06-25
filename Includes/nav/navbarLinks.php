@@ -17,14 +17,19 @@ return [
         'login' => 'login',
         'register' => 'register',
 
+
     ],
     'customer' => [
         'overviewcustomer' => 'overview',
+        'pcpartpicker'=>'pcpartpicker',
+        //'pcpayment'=>'pcpayment',
+        'prebuild'=>'prebuild',
         'logout' => 'logout',
 
     ],
     'employee' => [
         'overviewemployee' => 'overview',
+        'viewpcemployee'=>'viewpc',
         'logout' => 'logout',
 
     ],

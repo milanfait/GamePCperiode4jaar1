@@ -7,7 +7,7 @@
                     <div class="col-lg-8">
                         <h1 class="fw-bold">Pick Parts. Build Your PC.</h1>
                         <p class="lead mb-4">We provide part selection, pricing, and compatibility guidance for do-it-yourself computer builders.</p>
-                        <a href="?page=login" class="btn btn-outline btn-primary">Start building.</a>
+                        <a href="?page=pcpartpicker" class="btn btn-outline btn-primary">Start building.</a>
                     </div>
                 </div>
             </div>

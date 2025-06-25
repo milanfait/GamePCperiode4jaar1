@@ -1,79 +1,52 @@
-<?php
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+d<?php
+// Example PartId: Get this from request or context
+$PartId = $_GET['partid'] ?? null;
 
-if (!isset($_SESSION['user_id'])) {
-    echo "Please log in to see your PC build.";
+if (!$PartId) {
+    echo "Part ID not provided.";
     exit();
 }
 
-$userId = $_SESSION['user_id'];
-
-// 1. Get the latest payment record for this user
-$sqlPayment = "SELECT id, paymentstatus, price FROM payment WHERE userid = :userid ORDER BY id DESC LIMIT 1";
-$stmtPayment = $conn->prepare($sqlPayment);
-$stmtPayment->bindValue(':userid', $userId, PDO::PARAM_INT);
-$stmtPayment->execute();
-$payment = $stmtPayment->fetch(PDO::FETCH_ASSOC);
-
-if (!$payment) {
-    echo "You have no PC builds yet.";
-    exit();
-}
-
-$paymentId = $payment['id'];
-
-// 2. Get the PC build record for this payment
-$sqlBuild = "SELECT CPU, GPU, Motherboard, RAM, SSDHDD, PSU, Cabinet, CPU_cooler, Monitor, Keyboard, Mouse FROM pc WHERE partid = :paymentId";
+// 1. Get the prebuilt PC build details using partid
+$sqlBuild = "SELECT CPU, GPU, Motherboard, RAM, SSDHDD, PSU, Cabinet, CPU_cooler, Monitor, Keyboard, Mouse 
+             FROM pc WHERE partid = :partid";
 $stmtBuild = $conn->prepare($sqlBuild);
-$stmtBuild->bindValue(':paymentId', $paymentId, PDO::PARAM_INT);
+$stmtBuild->bindValue(':partid', $PartId, PDO::PARAM_INT);
 $stmtBuild->execute();
 $build = $stmtBuild->fetch(PDO::FETCH_ASSOC);
 
 if (!$build) {
-    echo "No PC build found for this payment.";
+    echo "Prebuilt PC not found.";
     exit();
 }
 
-// 3. Fetch part names for all selected parts in the build
+// 2. Get all part IDs from the build
 $partIds = array_values($build);
-
 $placeholders = implode(',', array_fill(0, count($partIds), '?'));
+
+// 3. Fetch part names from pcparts
 $sqlParts = "SELECT id, partname FROM pcparts WHERE id IN ($placeholders)";
 $stmtParts = $conn->prepare($sqlParts);
 $stmtParts->execute($partIds);
 $partsData = $stmtParts->fetchAll(PDO::FETCH_KEY_PAIR); // id => partname
 
-// 4. Replace IDs in $build with part names
+// 4. Replace part IDs with part names
 $buildPartsNamed = [];
 foreach ($build as $category => $partId) {
     $buildPartsNamed[$category] = $partsData[$partId] ?? 'Unknown Part';
 }
 
-// --- Display combined table ---
-echo "<h3>Your PC Build & Payment Info</h3>";
+// 5. Display the PC Build
+echo "<h3>Prebuilt PC Build Details</h3>";
 echo '<table border="1" cellpadding="5" cellspacing="0">';
 echo '<tr>';
-
-// Headers for PC parts
 foreach (array_keys($buildPartsNamed) as $category) {
     echo '<th>' . htmlspecialchars($category) . '</th>';
 }
-// Additional headers for payment info
-echo '<th>Payment Status</th><th>Price</th>';
-
 echo '</tr><tr>';
-
-// PC parts values
 foreach ($buildPartsNamed as $partName) {
     echo '<td>' . htmlspecialchars($partName) . '</td>';
 }
-
-// Payment info values
-echo '<td>' . htmlspecialchars($payment['paymentstatus']) . '</td>';
-echo '<td>$' . number_format($payment['price'], 2) . '</td>';
-
 echo '</tr>';
 echo '</table>';
 ?>
