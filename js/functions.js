@@ -1,3 +1,4 @@
+// Verberg eventuele error message
 function closeErrorMessage() {
     var errorDiv = document.querySelector('.error-message');
     if (errorDiv) {
@@ -5,51 +6,7 @@ function closeErrorMessage() {
     }
 }
 
-function enableDarkmode() {
-    document.documentElement.setAttribute('data-bs-theme', 'dark');
-    localStorage.setItem('darkmode', 'active');
-
-    const navbar = document.querySelector('.navbar');
-    const footer = document.querySelector('.footer');
-
-    if (navbar) {
-        navbar.classList.remove('bg-dark');
-        navbar.classList.add('bg-primary');
-    }
-
-    if (footer) {
-        footer.classList.remove('bg-dark');
-        footer.classList.add('bg-primary');
-    }
-}
-
-function disableDarkmode() {
-    document.documentElement.setAttribute('data-bs-theme', 'light');
-    localStorage.setItem('darkmode', null);
-
-    const navbar = document.querySelector('.navbar');
-    const footer = document.querySelector('.footer');
-
-    if (navbar) {
-        navbar.classList.remove('bg-primary');
-        navbar.classList.add('bg-dark');
-    }
-
-    if (footer) {
-        footer.classList.remove('bg-primary');
-        footer.classList.add('bg-dark');
-    }
-}
-
-function checkAndSetDarkmode() {
-    const darkmode = localStorage.getItem('darkmode');
-    if (darkmode === 'active') {
-        enableDarkmode();
-    } else {
-        disableDarkmode();
-    }
-}
-
+// Check wachtwoord validatie en zet submit knop aan/uit
 function checkPassword() {
     const password = document.getElementById("password").value;
     const confirmPassword = document.getElementById("repeatPassword").value;
@@ -73,48 +30,49 @@ function checkPassword() {
         if (password !== confirmPassword) {
             errors.push("- Passwords must match.");
         }
-    
+
         if (errors.length > 0) {
             errorMessage.innerHTML = errors.join("<br>");
-            submitBtn.disabled = true;  
+            submitBtn.disabled = true;
         } else {
             errorMessage.innerHTML = "";
-            submitBtn.disabled = false;  
+            submitBtn.disabled = false;
         }
+    } else {
+        // Geen password ingevuld = knop uitzetten + geen foutmelding
+        errorMessage.innerHTML = "";
+        submitBtn.disabled = true;
     }
 }
 
+// Rol selectie bij login, verandert formulier dynamisch
 function loginRoleSelector(event) {
     if (event.target.tagName === 'INPUT' && event.target.type === 'radio') {
         const selectedRole = event.target.value;
-
         const formContainer = document.querySelector('#loginFields');
-
         formContainer.innerHTML = '';
 
         if (selectedRole === 'runner') {
             formContainer.innerHTML = `
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingEmail" name="email" placeholder="Please enter your email" required>
-                <label for="floatingEmail" class="form-label">Email</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Please enter your password" required>
-                <label for="floatingPassword" class="form-label">Password</label>
-            </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingEmail" name="email" placeholder="Please enter your email" required>
+                    <label for="floatingEmail" class="form-label">Email</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Please enter your password" required>
+                    <label for="floatingPassword" class="form-label">Password</label>
+                </div>
             `;
         } else if (selectedRole === 'admin') {
             formContainer.innerHTML = `
-            <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Please enter your username" required>
-                <label for="floatingUsername" class="form-label">Username</label>
-            </div>
-
-            <div class="form-floating mb-3">
-                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Please enter your password" required>
-                <label for="floatingPassword" class="form-label">Password</label>
-            </div>
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="floatingUsername" name="username" placeholder="Please enter your username" required>
+                    <label for="floatingUsername" class="form-label">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Please enter your password" required>
+                    <label for="floatingPassword" class="form-label">Password</label>
+                </div>
             `;
         } else if (selectedRole === 'organizer') {
             formContainer.innerHTML = `
@@ -126,3 +84,27 @@ function loginRoleSelector(event) {
         }
     }
 }
+
+// Event listeners toevoegen zodat de functies reageren op input/events
+document.addEventListener('DOMContentLoaded', () => {
+    // Password check op input veranderingen
+    const passwordInput = document.getElementById('password');
+    const repeatPasswordInput = document.getElementById('repeatPassword');
+    if (passwordInput && repeatPasswordInput) {
+        passwordInput.addEventListener('input', checkPassword);
+        repeatPasswordInput.addEventListener('input', checkPassword);
+        checkPassword(); // meteen checken bij laden
+    }
+
+    // Login rol selectie
+    const roleRadios = document.querySelectorAll('input[type=radio][name=role]');
+    roleRadios.forEach(radio => {
+        radio.addEventListener('change', loginRoleSelector);
+    });
+
+    // Sluit knop voor error message als die er is
+    const closeBtn = document.querySelector('.error-message .close-btn');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeErrorMessage);
+    }
+});

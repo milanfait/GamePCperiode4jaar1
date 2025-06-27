@@ -13,23 +13,19 @@ return [
     */
 
     'guest' => [
-        'home' => 'home',
         'login' => 'login',
         'register' => 'register',
-
-
+        'pcpartpicker' => 'pcpartpicker',
+        'prebuilt'=>'prebuilt',
     ],
     'customer' => [
-        'overviewcustomer' => 'overview',
         'pcpartpicker'=>'pcpartpicker',
-        //'pcpayment'=>'pcpayment',
-        'prebuild'=>'prebuild',
+        'prebuilt'=>'prebuilt',
         'logout' => 'logout',
 
     ],
     'employee' => [
         'overviewemployee' => 'overview',
-        'viewpcemployee'=>'viewpc',
         'logout' => 'logout',
 
     ],

@@ -1,123 +1,98 @@
-* {
+/* Base styles */
+html, body {
+    background-color: #000 !important;
+    color: #CCCCCC !important;
+    font-family: Arial, sans-serif;
+    height: 100%;
     margin: 0;
     padding: 0;
 }
 
-body {
-    user-select: none;
-    transition: all 0.5s ease-in-out;
+*, *::before, *::after {
+    background-color: transparent !important;
+    color: #CCCCCC !important;
+    box-sizing: border-box;
 }
 
-.navbar.transition {
-    transition: background-color 0.5s ease-in-out;
+/* Common containers */
+.container,
+.wrapper,
+.main,
+.content,
+.page,
+.section,
+.row,
+.col,
+.card,
+.bg-white,
+.bg-light {
+    background-color: #000 !important;
+    color: #CCCCCC !important;
 }
 
-.footer.transition {
-    transition: background-color 0.5s ease-in-out;
-}
-.footer.transition {
-    transition: background-color 0.5s ease-in-out;
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+    color: #FF4444 !important;
 }
 
-.events {
-    transition: background-color 0.5s ease-in-out;
+/* Links */
+a {
+    color: #FF4444 !important;
+}
+a:hover {
+    color: #CC0000 !important;
 }
 
-.events {
-    width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 30px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Titel */
-.events h2 {
-    text-align: center;
-    margin-bottom: 25px;
-}
-
-/* Tabel opmaak */
+/* Tables */
 table {
     width: 100%;
     border-collapse: collapse;
+    background-color: #000 !important;
+    color: #CCCCCC !important;
+}
+th, td {
+    border: 1px solid #B71C1C !important;
+    padding: 8px;
 }
 
-table th, table td {
-    padding: 12px 16px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
+/* Forms and inputs */
+input,
+textarea,
+select {
+    background-color: #000 !important;
+    color: #CCCCCC !important;
+    border: 1px solid #B71C1C !important;
 }
 
-table th {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-}
-
-/* Afbeeldingskolom (optioneel, als je afbeeldingen laat zien) */
-table td img {
-    max-width: 100px;
-    height: auto;
-    border-radius: 6px;
-}
-.editevent-btn {
-    padding: 8px 16px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.editevent-btn:hover {
-    background-color: #218838;
-}
+/* Buttons */
+button,
+input[type="submit"],
+.btn,
+.editevent-btn,
 .deleteevent-btn {
-    padding: 8px 16px;
-    background-color: #f30808;
-    color: white;
-    border: none;
+    background-color: #FF0000 !important;
+    color: white !important;
+    border: 1px solid #B71C1C !important;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
+button:hover,
+.btn:hover,
+.editevent-btn:hover,
 .deleteevent-btn:hover {
-    background-color: #cc1414;
-}
-.my-custom-button {
-    padding: 14px 24px;
-    background: linear-gradient(135deg, #16c511, #3ecf24);
-    color: white;
-    border: none;
-    border-radius: 30px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
-    margin-right: 100px;
-    margin-left: 500px;
+    background-color: #B71C1C !important;
 }
 
-.my-custom-button:hover {
-    transform: scale(1.05);
-    background: linear-gradient(135deg, #79bc23, #72c31e);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-}
-
+/* Error messages */
 .error-message {
-    color: white;
-    background-color: red;
+    color: white !important;
+    background-color: #B30000 !important;
     padding: 15px;
     position: relative;
-    font-family: Arial, sans-serif;
     font-size: 16px;
+    border-radius: 6px;
 }
-
 .close-btn {
     color: white;
     font-weight: bold;
@@ -127,8 +102,51 @@ table td img {
     font-size: 20px;
     cursor: pointer;
 }
-
 .close-btn:hover {
-    color: #ddd;
+    color: #FF8888;
 }
 
+/* Navbar layout */
+.navbar {
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    font-size: 1.1rem;
+}
+.navbar-collapse {
+    justify-content: flex-end !important;
+}
+
+/* Logo + branding */
+.brand-logo {
+    width: 80px;
+    height: auto;
+}
+.brand-text {
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #FF4444;
+}
+
+/* Left-side icon */
+.navbar-icon {
+    width: 50px;
+    height: auto;
+    cursor: pointer;
+}
+.navbar-icon-link {
+    display: flex;
+    align-items: center;
+}
+
+/* Navbar links */
+.navbar-nav .nav-link {
+    font-size: 1.2rem;
+    color: #FF4444 !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: right !important;
+}
+.navbar-nav .nav-link.active {
+    color: #FF0000 !important;
+    font-weight: bold;
+}

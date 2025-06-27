@@ -1,6 +1,6 @@
 
     <div class="content">
-    <section style="min-height: 100vh; background: url('../assets/homeBackground.png') center center / cover no-repeat;">
+    <section>
 <!--    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75"></div>-->
         <div class="container d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 100vh;">
     <div class="container position-relative z-1">

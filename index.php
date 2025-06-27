@@ -3,6 +3,10 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+// Set the base URL to your site's root or subfolder
+// If your site is in root (htdocs), use empty string ''
+$baseUrl = '/GamePC'; // Change '/GamePC' to your folder or '' if root
+
 $page = $_GET['page'] ?? 'home';
 
 $pages_directory = 'includes';
@@ -15,23 +19,26 @@ if (!file_exists($page_path)) {
     $page_path = "{$pages_directory}/404.inc.php";
 }
 
+// Load navbar config and user role here so navbar.inc.php can access them
+$navConfig = require __DIR__ . '/includes/nav/navbarLinks.php';
+$role = $_SESSION['role'] ?? 'guest';
+$links = $navConfig[$role] ?? [];
+$currentPage = $page;
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="this is a test, hello!">
-    <meta name="keywords" content="codefest, HTML, CSS, PHP, JavaScript, test, test, test">
+    <meta name="keywords" content="HTML, CSS, PHP, JavaScript, test, test, test">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyGamePC</title>
-    <link rel="icon" type="image/x-icon" href="assets/logo.png">
-    <link rel="stylesheet" href="css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-    <script>
-        let darkmode = localStorage.getItem('darkmode');
-        document.documentElement.setAttribute('data-bs-theme', darkmode === 'active' ? 'dark' : 'light');
-    </script>
+    <link rel="icon" type="image/x-icon" href="<?= $baseUrl ?>/assets/logo.png">
+    <link rel="stylesheet" href="<?= $baseUrl ?>/css/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -55,9 +62,9 @@ if (isset($_SESSION['error'])){
 
 <?php include "{$pages_directory}/footer.inc.php";?>
 
-<script src="js/functions.js"></script>
-<script src="js/script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="<?= $baseUrl ?>/js/functions.js"></script>
+<script src="<?= $baseUrl ?>/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 </body>
 </html>
-random code random code random code random code random code random code

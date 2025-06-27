@@ -5,129 +5,45 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-if (!isset($_POST['roles']) || empty($_POST['roles'])) {
-    $_SESSION['error'] = 'Role is not selected.';
+if (empty($_POST['username_or_email']) || empty($_POST['password'])) {
+    $_SESSION['error'] = 'Vul zowel e-mailadres als wachtwoord in.';
     header('location: ../index.php?page=login');
     exit();
 }
 
-$selectedRole = $_POST['roles'][0];
-$password = isset($_POST['password']) ? $_POST['password'] : null;
+$email = $_POST['username_or_email']; // alleen e-mail is toegestaan
+$password = $_POST['password'];
 $_SESSION['formData'] = $_POST;
 
-if ($selectedRole == 'customer') {
-    if (!isset($_POST['email']) || empty($_POST['email'])) {
-        $_SESSION['error'] = 'Email is required for customers.';
+// Zoek gebruiker alleen op basis van e-mailadres
+$sql = 'SELECT users.id as userID, email, password, roleName FROM users
+        JOIN userroles ON userroles.FKuserID = users.id
+        JOIN roles ON roles.id = userroles.FKroleID
+        WHERE email = :email';
+
+$sth = $conn->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
+$sth->execute(['email' => $email]);
+
+$user = $sth->fetch(PDO::FETCH_ASSOC);
+
+// Verifieer wachtwoord
+if ($user && password_verify($password, $user['password'])) {
+    $_SESSION['role'] = $user['roleName'];
+    $_SESSION['user_id'] = $user['userID'];
+
+    if ($user['roleName'] === 'customer') {
+        header('location: ../index.php?page=overviewcustomer');
+        exit();
+    } elseif ($user['roleName'] === 'employee') {
+        header('location: ../index.php?page=overviewemployee');
+        exit();
+    } else {
+        $_SESSION['error'] = 'Ongeldige rol.';
         header('location: ../index.php?page=login');
         exit();
     }
-
-    $sql = 'SELECT email, password, roleName, users.id as userID FROM users 
-            JOIN userroles ON userroles.FKuserID = users.id
-            JOIN roles ON roles.id = userroles.FKroleID
-            WHERE email = :email AND roles.roleName = :role';
-
-    $sth = $conn->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
-    $sth->execute([
-        'email' => $_POST['email'],
-        'role' => $selectedRole
-    ]);
-
-} else if ($selectedRole == 'admin') {
-    if (!isset($_POST['username']) || empty($_POST['username'])) {
-        $_SESSION['error'] = 'Username is required for admins.';
-        header('location: ../index.php?page=login');
-        exit();
-    }
-
-    $sql = 'SELECT username, password, roleName, users.id as userID FROM users
-            JOIN userroles ON userroles.FKuserID = users.id
-            JOIN roles ON roles.id = userroles.FKroleID
-            WHERE username = :username AND roles.roleName = :role';
-
-    $sth = $conn->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
-    $sth->execute([
-        'username' => $_POST['username'],
-        'role' => $selectedRole
-    ]);
-
-} else if ($selectedRole == 'employee') {
-    if (!isset($_POST['userkeyCode']) || empty($_POST['userkeyCode'])) {
-        $_SESSION['error'] = 'Userkey is required for employees.';
-        header('location: ../index.php?page=login');
-        exit();
-    }
-    echo "test";
-    $sql = 'SELECT userkey, roleName, users.id AS userID FROM users
-            JOIN userroles ON userroles.FKuserID = users.id
-            JOIN roles ON roles.id = userroles.FKroleID 
-            WHERE userkey = :userkey AND roles.roleName = :role';
-
-    $sth = $conn->prepare($sql, [PDO::ATTR_CURSOR => PDO::CURSOR_FWDONLY]);
-    $sth->execute([
-        'userkey' => $_POST['userkeyCode'],
-        'role' => $selectedRole
-    ]);
-
 } else {
-    $_SESSION['error'] = 'Invalid role selected.';
+    $_SESSION['error'] = 'E-mailadres of wachtwoord is onjuist.';
     header('location: ../index.php?page=login');
     exit();
 }
-
-$rsemail = $sth->fetch(PDO::FETCH_ASSOC);
-var_dump($rsemail);
-$_SESSION['role'] = $rsemail['roleName'];
-$_SESSION['user_id'] = $rsemail['userID'];
-if ($rsemail['roleName'] == 'admin') {
-    header('location: ../index.php?page=overviewAdmin');
-} else if ($rsemail['roleName'] == 'employee') {
-    header('location: ../index.php?page=overviewemployee');
-} else if ($rsemail['roleName'] == 'customer') {
-    header('location: ../index.php?page=overviewcustomer');
-}
-    
-?>
-<script>
-    const maxAttempts = 3;
-    const lockoutTime = 5 * 60 * 1000;
-    const attemptsKey = 'loginAttempts';
-    const lockoutKey = 'lockoutTime';
-
-    let attempts = parseInt(localStorage.getItem(attemptsKey)) || 0;
-    let lockout = parseInt(localStorage.getItem(lockoutKey)) || 0;
-
-    const now = Date.now();
-
-    if (lockout && now < lockout) {
-        alert('You have exceeded the maximum login attempts. Please wait 5 minutes before trying again.');
-        window.location.href = '../index.php?page=login';
-    } else {
-        localStorage.removeItem(lockoutKey);
-    }
-
-    <?php if (password_verify($_POST['password'], $rsemail['password'])) { ?>
-    localStorage.removeItem(attemptsKey);
-    localStorage.removeItem(lockoutKey);
-    <?php
-    if ($_SESSION['role'] == 'customer') {
-        header('location: ../index.php?page=overviewcustomercustomer');
-    } else if ($_SESSION['role'] == 'admin') {
-        header('location: ../index.php?page=overviewAdmin');
-    } else if ($_SESSION['role'] == 'employee') {
-        echo "why not work";
-        header('location: ../index.php?page=overviewemployeeemployee');
-    }
-    ?>
-    <?php } else { ?>
-    attempts++;
-    if (attempts >= maxAttempts) {
-        localStorage.setItem(lockoutKey, now + lockoutTime);
-        alert('You have exceeded the maximum login attempts. Please wait 5 minutes before trying again.');
-    } else {
-        alert(`Login info is not correct! You have ${maxAttempts - attempts} attempts remaining.`);
-    }
-    localStorage.setItem(attemptsKey, attempts);
-    window.location.href = '../index.php?page=login';
-    <?php } ?>
-</script>

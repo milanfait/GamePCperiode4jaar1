@@ -4,6 +4,10 @@
         <!--    <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-75"></div>-->
         <div class="container d-flex flex-column justify-content-center align-items-center text-center" style="min-height: 100vh;">
         <h1>Contact:<h1>
+                <h3>als je vragen hebt <h3>
+                        <h3>of contact met ons op wilt nemen<h3>
+                            <h3> dan kan dat via:<h3>
+                        <h3>Gamepc@gmail.com<h3>
           <h3>  GamePC Inc.<h3>
                   <h3>Dijkplantsoen 101<h3>
                           <h3>2793 NK Zuidam<h3>

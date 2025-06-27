@@ -1,9 +1,6 @@
-const themeToggle = document.querySelector('#darkmodeSwitch');
 const navbar = document.querySelector('.navbar');
 const footer = document.querySelector('.footer');
 
-window.addEventListener('load', () => {
-    checkAndSetDarkmode();
 
     setTimeout(() => {
         if (navbar) {
@@ -11,14 +8,6 @@ window.addEventListener('load', () => {
         }
     }, 100);
 
-    themeToggle.addEventListener('click', () => {
-        let darkmode = localStorage.getItem('darkmode');
-        if (darkmode !== 'active') {
-            enableDarkmode();
-        } else {
-            disableDarkmode();
-        }
-    });
 
     const adminCheckbox = document.querySelector('#roleAdmin');
     const registerForm = document.querySelector('#registerForm');
@@ -40,4 +29,3 @@ window.addEventListener('load', () => {
             }
         }
     });
-});
